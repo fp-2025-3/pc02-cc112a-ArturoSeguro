@@ -1,0 +1,10 @@
+make name
+./name
+
+
+
+
+
+
+cd "/c/Users/Alumno/Pictures/PC2 CC112 ARTU"
+
