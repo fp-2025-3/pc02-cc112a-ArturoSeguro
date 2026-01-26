@@ -2,16 +2,6 @@
 using namespace std;
 
 
-//función1
-//
-
-
-
-//función2
-//
-
-
-
 //función3
 //
 int sumaMAXIMA(int** Pmatriz, int &Ax, int &Ay, int &Bx, int &By){
@@ -25,68 +15,27 @@ int sumaMAXIMA(int** Pmatriz, int &Ax, int &Ay, int &Bx, int &By){
     return acumuladorSUMA;
 }
 
-
 //función4
-//
-void calculoMATRIZ(int** Pmatriz, int &Ax, int &Ay, int &Bx, int &By){
-    int OizX, OizY;     //"O" de oficial
-    int OdeX, OdeY;
-
-    //coordenadas X correctas de esquinas oficiales
-    if(Ax== Bx){
-        OizX= Ax;
-        OdeX= Ax;
-        if(Ay< By){
-            OizY= Ay;       //perfecto
-            OdeY= By;
-        }else{
-            OizY= By;       //perfecto
-            OdeY= Ay;
+void imprimiendoMATRIZ(int** Pmatriz){
+    for(int i=0; i<4; i++){
+        for(int j=0; j<5; j++){
+            cout << *(*(Pmatriz+i)+j) << " ";
         }
-
-    }else if(Ax< Bx){
-        OizX= Ax;       //perfecto
-        OdeX= Bx;
-        if(Ay< By){
-            OizY= Ay;       //perfecto
-            OdeY= By;
-        }else{
-            OizY= By;       //perfecto
-            OdeY= Ay;
-        }
-
-    }else if(Ax> Bx){
-        OizX= Bx;       //perfecto
-        OdeX= Ax;
-        if(Ay< By){
-            OizY= Ay;       //perfecto
-            OdeY= By;
-        }else{
-            OizY= By;       //perfecto
-            OdeY= Ay;
-        }
+        cout << "\n";
     }
-
-    //Ahora imprimo resultados
-    cout << "Esquina superior izquierda: " << "(" << OizX << "," << OizY << ")";
-    cout << "\nEsquina inferior derecha: " << "(" << OdeX << "," << OdeY << ")";
-    cout << "\n\n";
-
-    Ax= OizX;
-    Ay= OizY;
-    Bx= OdeX;
-    By= OdeY;
 }
+
 
 
 //main
 //
 int main(){
+    //
     const int F=4, C=5;
-    int matriz[F][C]= { {3, 3, 3, 3, 3},
-                        {3, 4, 4, 2, 3},
-                        {3, 4, 5, 4, 3},
-                        {3, 3, 3, 3, 3} };
+    int matriz[F][C]= { {3, 3, -3, 3, 3},
+                        {3, -4, 4, 2, 3},
+                        {3, -4, 5, 4, 3},
+                        {3, 3, -3, -3, -3} };
 
     int* Pmatriz[F];
     for(int i=0; i<F; i++){
@@ -94,24 +43,41 @@ int main(){
     }
 
 
-    int Ax, Ay;
-    int Bx, By;
 
-    cout << "COORDENADAindice DE A 'X' :: ";
-    cin >> Ax;
-    cout << "COORDENADAindice DE A 'Y' :: ";
-    cin >> Ay;
+    //
+    int maxSuma= -999;                  //este será mi valor inicial de "submatriz de suma máxima"
+    int mejorAx= 0, mejorAy= 0;
+    int mejorBx= 0, mejorBy= 0;
 
-    cout << "COORDENADAindice DE B 'X' :: ";
-    cin >> Bx;
-    cout << "COORDENADAindice DE B 'Y' :: ";
-    cin >> By;
+    for(int y1 = 0; y1 < F; y1++){          //Mis coordenadas "y" estan relacionados con la FILA
+        for(int x1 = 0; x1 < C; x1++){      //Mis coordenadas "X" estan relacionados con la COLUMNA --> esos "2" serán importantes para imprimir coordenadas de forma correcta
+
+            for(int y2 = y1; y2 < F; y2++){       
+                for(int x2 = x1; x2 < C; x2++){
+                    //
+                    int sumaActual= sumaMAXIMA(Pmatriz, x1, y1, x2, y2);
+
+                    //
+                    if(sumaActual > maxSuma){
+                        maxSuma= sumaActual;
+
+                        mejorAx =x1; mejorAy= y1;
+                        mejorBx= x2; mejorBy= y2;
+                    }
+                }
+            }
+        }
+    }
 
 
-    //imprimiendo resultados
-    calculoMATRIZ(Pmatriz, Ax, Ay, Bx, By);
+    //Imprimiendo resultados
+    imprimiendoMATRIZ(Pmatriz);
 
-    cout << "Suma máxima: " << sumaMAXIMA(Pmatriz, Ax, Ay, Bx, By);
+    cout << "SubMatriz de una maxima: " << endl;
+    cout << "Esquina superiorIZQUIERDA: (" << mejorAy << "," << mejorAx << ")" << endl;
+    cout << "Esquina inferiorDERECHA: (" << mejorBy << "," << mejorBx << ")" << endl;
+    cout << "Suma maxima: " << maxSuma << endl;
 
+    //
     return 0;
 }
