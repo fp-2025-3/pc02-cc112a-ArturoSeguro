@@ -34,35 +34,59 @@ int esPICO(int** Pmatriz, int* PindiceF, int* PindiceC){
     for(int i=0; i<4; i++){
         for(int j=0; j<5; j++){
             //
-            int alMENOSuno=0;   //para verificar
+            int valorActual= *(*(Pmatriz+i)+j);
+            bool cumpleMayorIgualTodos= true;
+            bool cumpleEstrictoUno= false;
+
+            //verificación de ARRIBA
             if(i-1>=0){
-                if(*(*(Pmatriz+i)+j)>*(*(Pmatriz+i-1)+j)){
-                    alMENOSuno++;
+                int vecino= *(*(Pmatriz+i-1)+j);
+                if(valorActual< vecino){
+                    cumpleMayorIgualTodos = false;      //falla condición 1
                 }
-                
-            }
-            if(i+1<=3){
-                if(*(*(Pmatriz+i)+j)>*(*(Pmatriz+i+1)+j)){
-                    alMENOSuno++;
-                }
-            }
-            //
-            if(j-1<=0){
-                if(*(*(Pmatriz+i)+j)>*(*(Pmatriz+i)+j-1)){
-                    alMENOSuno++;
-                }
-            }
-            if(j+1<=4){
-                if(*(*(Pmatriz+i)+j)>*(*(Pmatriz+i)+j+1)){
-                    alMENOSuno++;
+                if(valorActual> vecino){
+                    cumpleEstrictoUno= true;            //cumple condición 2
                 }
             }
 
-            if(alMENOSuno != 0){
+            //verificación de ABAJO
+            if(i+1<=3){
+                int vecino = *(*(Pmatriz+i+1)+j);
+                if(valorActual < vecino){
+                    cumpleMayorIgualTodos = false;
+                }
+                if(valorActual > vecino){
+                    cumpleEstrictoUno = true;
+                }
+            }
+
+            //verificación de IZQUIERDA
+            if(j-1>=0){         // aca había puesto "j-1<=0" y eso esun error
+                int vecino = *(*(Pmatriz+i)+j-1);
+                if(valorActual < vecino){
+                    cumpleMayorIgualTodos = false;
+                }
+                if(valorActual > vecino){
+                    cumpleEstrictoUno = true;
+                }
+            }
+
+            //verificación de DERECHA
+            if(j+1<=4){
+                int vecino = *(*(Pmatriz+i)+j+1);
+                if(valorActual < vecino){
+                    cumpleMayorIgualTodos = false;
+                }
+                if(valorActual > vecino){
+                    cumpleEstrictoUno = true;
+                }
+            }
+
+            if(cumpleMayorIgualTodos == true && cumpleEstrictoUno == true){
                 *(PindiceF+sumadorF)= i;
                 sumadorF++;
                 *(PindiceC+sumadorC)= j;
-                sumadorC++;
+                sumadorC++; 
             }
         }
     }
