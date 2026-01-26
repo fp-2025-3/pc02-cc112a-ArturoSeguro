@@ -3,7 +3,7 @@ using namespace std;
 
 //función1
 //
-void derivacion(int* p, int orden, int derivada, int &PrimerIndice){
+void derivacion(double* p, int orden, int derivada, int &PrimerIndice){
     int copiaPrimerIndice= PrimerIndice;
     for(int i=0; i<=derivada-1; i++){
         for(int j=0; j<=orden; j++){
@@ -19,7 +19,7 @@ void derivacion(int* p, int orden, int derivada, int &PrimerIndice){
 
 //función2
 //
-void PolinomioImpreso(int* p, int orden, int &PrimerIndice){
+void PolinomioImpreso(double* p, int orden, int &PrimerIndice){
     for(int i=orden; i>=PrimerIndice; i--){
         if(i-PrimerIndice== 0){
             cout << *(p+i);
@@ -39,7 +39,7 @@ int main(){
     int derivada= 0;
 
     //
-    int coeficientes[100]= {0};
+    double coeficientes[100]= {0};
     for(int i=0; i<=orden; i++){
         cout << "Ingrese el coeficiente de orden" << i << " ::";
         cin >> coeficientes[i];
@@ -47,7 +47,7 @@ int main(){
     }
 
     //
-    int* p= coeficientes;
+    double* p= coeficientes;
 
     int PrimerIndice= 0;
     PolinomioImpreso(p, orden, PrimerIndice);          //comienza de orden 0;
