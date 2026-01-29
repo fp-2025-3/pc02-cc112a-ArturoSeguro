@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cctype>
+#include <algorithm>
 using namespace std;
 
 
@@ -98,7 +100,7 @@ int comparar_palabras(const char* a, const char* b){
     while( *(a+i)!= ' ' && *(a+i)!= '\0' && *(b+i)!= ' ' && *(b+i)!= '\0'){
         // Convertimos a minúsculas temporalmente...
         //por supuesto que es necesario analizar o los 2 mayusculas o los 2 minúsculas, de otra forma dará errores, por ejemplo el caso de analizar una mayuscula con un minúscula
-        char letraA= tolower( *(a+i));
+        char letraA= tolower( *(a+i)); 
         char letraB= tolower( *(b+i));
 
         if(letraA< letraB){
@@ -176,7 +178,7 @@ void ordenar(char* v[], int n){
     //no tengo ni idea de como hacerlo ya que no tengo ni idea de como se puntean las palabras (solo primeras letras de cada palabra? o también las últimas letras para saber su longitud??? cómo??? siento que hay mil formas de hacerlo)
 
     for(int i=0; i<n-1; i++){
-        for(int j=0; i<n-i-1; j++){
+        for(int j=0; j<n-i-1; j++){         //--> solo por no poner el "j" TODO ME ESTAB AFALLANDO --> listo ahora sí
             //si la palabra j es "mayor" (alfabeticamente posterior) que j+1
             if( comparar_palabras(v[j], v[j+1])> 0){                            //-->--> Aca se devolverá el valor que programe en "comparar_palabras()"
                 //Intercambiamos LAS FLECHAS (punteros), no el texto
@@ -193,7 +195,7 @@ void ordenar(char* v[], int n){
 //
 //
 //Función6                      -->--> Imprimir con cuidado
-int imprimir_grupo(const char* titulo, char* v[], int n){
+void imprimir_grupo(const char* titulo, char* v[], int n){
     //Qué diablos será "v[]"?
     //--> v[] es un nombre genérico. AHí entrará el cortas[] o largas[]
 
