@@ -6,7 +6,7 @@ using namespace std;
 
 
 //function 1
-int palabrasSeparar(char* texto, char* palabras[60]){
+int palabrasSeparar(char* texto, char* palabras[60], int* PUNindices){
     int i=0;
     int cantidad=0;
 
@@ -15,6 +15,7 @@ int palabrasSeparar(char* texto, char* palabras[60]){
 
         if(!entraPalabra){
             palabras[cantidad]= (texto+i);
+            *(PUNindices+cantidad)= i;          //aca me aseguro de guardar el indice de la primera letra de la palabra
             cantidad++;
 
             entraPalabra= true;         //ya esta en palabra
@@ -35,9 +36,9 @@ int palabrasSeparar(char* texto, char* palabras[60]){
 
 
 //function 2                        -->BubbleSOrt alfabetico
-void ordenar(char* palabras[60], int cantidad){
+void ordenar(char* palabras[60], int cantidad, int* PUNindices){
     for(int i=0; i<cantidad-1; i++){
-        for(int j=0; j<cantidad-1-j; j++){
+        for(int j=0; j<cantidad-1-i; j++){      //cometí un horrible error aca --> era "-i" no "-j" --> no me di cuenta
             char a= *palabras[j];
             char b= *palabras[j+1];
 
@@ -46,6 +47,7 @@ void ordenar(char* palabras[60], int cantidad){
 
             if(b< a){
                 swap(palabras[j], palabras[j+1]);
+                swap( *(PUNindices+j), *(PUNindices+j+1));
             }
             
         }
@@ -71,7 +73,7 @@ int len1(char* tama){       //ya no se que nombre ponerle
 
 
 //function 3
-void imprimirResultado(char* palabras[60], int cantidad){
+void imprimirResultado(char* palabras[60], int cantidad, int* PUNindices){
     cout << "Palabras ordenadas:: \n";
 
     for(int i=0; i<cantidad; i++){
@@ -81,7 +83,8 @@ void imprimirResultado(char* palabras[60], int cantidad){
         for(int j=0; j<tam; j++){
             cout << *(palabras[i]+j);
         }
-        cout << "\n";
+        cout << "\n--->(orden '" << *(PUNindices+i) << "')";
+        cout << "\n\n";
     }
 }
 
@@ -92,14 +95,19 @@ int main(){
     char texto[]= "Los punteros no se copian se referencian y se ordenan";
     char* palabras[60];
 
-    //
-    int cantidad= palabrasSeparar(&texto[0], palabras);
+    //  -->--> No me di cuenta a tiempo de que pedian número de ornde tabién y ya no me quedaba tiempo
+    int indices[60];      //estos serán mis indices que me permitiran imprimirlo como en el ejemplo
+    int* PUNindices= &indices[0];
+
 
     //
-    ordenar(palabras, cantidad);
+    int cantidad= palabrasSeparar(&texto[0], palabras, PUNindices);
 
     //
-    imprimirResultado(palabras, cantidad);
+    ordenar(palabras, cantidad, PUNindices);
+
+    //
+    imprimirResultado(palabras, cantidad, PUNindices);
 
     return 0;
 }
