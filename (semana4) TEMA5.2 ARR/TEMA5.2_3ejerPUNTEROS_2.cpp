@@ -4,13 +4,13 @@
 using namespace std;
 
 //function1 --> condición(1)
-bool alMenosUno(un array, un indice de inicio){  //seguro le meteré un SUBarray extraido del original (A)
+bool alMenosUno(un puntero al inicio del array, un indice de inicio){  //no es necesario crear un SubArray, como si fuera un MergeSort, puedo moverme por la función original con puros punteros
 
 }
 
 
 //function2 --> operación(2) --> resultado de cada segmento
-int resultadoSegmento(un array, un indice de inicio){    //a este le meteré un SUBarray extraido del original (A) también seguro
+int resultadoSegmento(un puntero al inicio del array, un indice de inicio){
 
 }
 
