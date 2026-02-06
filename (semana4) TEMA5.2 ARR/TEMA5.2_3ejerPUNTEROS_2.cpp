@@ -30,8 +30,27 @@ int costoTotal(un array de punteros que contenga todos los inicios de los segmen
 
 
 //function4 --> función recursica(4) --> aplicará de manera adecuada y con condiciones adecuadas las anteriores funciones 
-int exploradorDePosibilidades(un puntero al inicio del arrayOriginal, un indice de inicio, un indice de final){
+int exploradorDePosibilidades(int* punA, int l, int d, int tamTotal, int pivote){
+    //i) CASO BASE, cuando se separó en todas las partes posíbles
+    
+    
+    
+    
+    
+    
+    //ii) mantengo un segmento de un elemento constante y pruebo todos los posíbles casos para el resto
+    //se supone que el pivote siempre esta dentro del SubArreglo Seleccionado (meiante punteros)
+    int nuevoTamL= pivote-l;
+    for(int i=0; i<nuevoTamL; i++){ //por derecha
+        punA[i]
+    }
 
+    int nuevoTamR= d-pivote;
+    if(d<14){
+        for(int i=0; i<nuevoTamR; i++){ //por izquierda
+            punA[i]
+        }
+    }
 }
 
 
@@ -50,15 +69,15 @@ int main(){
     //1. creando arreglo A
     int A[15];
     srand(time(0));
+    int tamTotal= sizeof(A)/sizeof(A[0]);
 
-    for(int i=0; i<15; i++){
+    for(int i=0; i<tamTotal; i++){
         A[i]= (rand()%20)-2;   //de (-2 a 17) --> (los negativos harán el ejercicio más interesante)
     }
 
 
-
     //2. LLamo a "function4" (el cual llama a las demás convenientemente) y deteermino la solución
-    int costoMinimoPosible= exploradorDePosibilidades(&A[0], 0, 14);
+    int costoMinimoPosible= exploradorDePosibilidades(&A[0], 0, tamTotal-1, tamTotal, 0);       //comienzo poniendo al "0" cono constante
     cout << "El costo minimo posible es:: " << costoMinimoPosible;
 
 
