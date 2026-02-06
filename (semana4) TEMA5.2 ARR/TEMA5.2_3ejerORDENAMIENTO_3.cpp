@@ -189,54 +189,122 @@ using namespace std;
 
 
 
-//Ranking académico
-//6. RankingAcadémico
-void ranking(int* notas, int* codigos, int N){
-    //top 5
-    cout << "Lista de los 5 mejores:: \n";
-    cout << "CODIGOS        PROMEDIOS";
-    for(int i=0; i<5; i++){
-        cout << codigos[i] << "       " << notas[i];
-        cout << "\n";
-    }
+//Ranking académico---------
+                    //6. RankingAcadémico
+                    void ranking(int* notas, int* codigos, int N){
+                        //top 5
+                        cout << "Lista de los 5 mejores:: \n";
+                        cout << "CODIGOS        PROMEDIOS       PUESTO\n";
+                        for(int i=0; i<5; i++){
+                            cout << codigos[i] << "       " << notas[i] << "         " << i+1;
+                            cout << "\n";
+                        }
 
-    //numero de desaprovados
-    int desaprobados=0;
-    for(int i=0; i<N; i++){
-        if(notas[i]<10){
-            desaprobados++;
+                        //promedio del curso
+                        int notasTotal=0;
+                        for(int i=0; i<N; i++){
+                            notasTotal= notasTotal+ notas[i];
+                        }
+                        cout << "\n\nel promedio del curso es:: " << notasTotal/N;
+
+                        //numero de desaprovados
+                        int desaprobados=0;
+                        for(int i=0; i<N; i++){
+                            if(notas[i]<10){
+                                desaprobados++;
+                            }
+                        }
+                        cout << "\nnumero de desaprobados es:: " << desaprobados;
+                        cout << "\n";
+
+                        return;
+                    }
+
+
+
+//Busqueda---------
+        //7. BusquedaLineal
+        void lineal(int* notas, int* codigos, int* inasistencias, int N, int codigoBuscado){
+
+            int rankingPlace= -1;
+            for(int i=0; i<N; i++){
+                if(codigos[i]== codigoBuscado){
+                    int rankingPlace= i+1;
+                    break;
+                }
+            }
+
+            int j=rankingPlace-1;               //para mantenerlo simple mi codigo
+            if(rankingPlace== -1){
+                cout << "no existe el codigo introducido.\n";
+                return;             
+            }else{
+                cout << "NOTAS      FALTAS      PUESTO\n";
+                cout << notas[j] << "       " << inasistencias[j] << "       " << rankingPlace;
+            }
+
+            return;
         }
-    }
-    cout << "numero de desaprobados es:: " << desaprobados;
-}
+
+
+//2do Ordenamiento---------
+                    //8. InsertionSort
+                    void insertion(int* codigos, int* notas, int* inasistencias, int N){
+                        for(int i=1; i<N; i++){
+                            for(int j=i-1; j>=0; j--){      
+                                if(codigos[i]< codigos[j]){
+                                    swap(codigos[i], codigos[j]);
+
+                                    //paralelamente
+                                    swap(notas[i], notas[j]);
+                                    swap(inasistencias[i], inasistencias[j]);
+                                }
+                            }
+                        }
+
+                        return;
+                    }
 
 
 
-//function4
+//2da Busqueda---------
+        //9. busquedaBinaria
+        int binaria(int* codigos, int N, int l, int r, int clave){  //retornará el indice en donde está el resultado
+            //Base
+            if(l>r){
+                return -1;      //significa que no encontró lo que se deseaba
+            }
+
+            //
+            int mitad= (l+r)/2;
+            if(mitad== clave){
+                return mitad;
+            }else if(clave<mitad){
+                return binaria(codigos, N, l, mitad-1, clave);
+            }else{
+                return binaria(codigos, N, mitad+1, r, clave);
+            }
+
+            return -2;      //si algo falla me retornará "-2"
+        }
 
 
 
-//function5
-
-
-
-//function6
 
 
 
 
 
-
-
-//main
+//main---------------------------
+//
+//
 //
 int main(){
     srand(time(0));
 
     int N;
-    cout << "Ponga el numero de alumno que hay:: ";
+    cout << "Ponga el numero de alumnos que hay:: ";
     cin >> N;
-
 
     //1.GeneroCódigos
     int* codigos= new int[N];
@@ -250,33 +318,49 @@ int main(){
     int* inasistencias= new int[N];
     generadorInasistencias(inasistencias, N);
 
+
+
+
+    cout << "\n\nODENADO por NOTA------------------------------\n";
     //4y5.Ordenando por notas y manteniendo relación
     mergeSort(notas, 0, N-1, codigos, inasistencias);
 
-
-
     //6.RankingAcademico
-    ranking(notas, codigos, N)
+    ranking(notas, codigos, N);
 
-
-    //function2
-
-
-
-    //function3
-
-
-
-    //function4
+    //
+    int codigoBuscado;
+    cout << "Escriba el codigo que desea buscar:: ";
+    cin >> codigoBuscado;
+    //7.BusquedaLineal
+    lineal(notas, codigos, inasistencias, N, codigoBuscado);
 
 
 
-    //function5
+
+    cout << "\n\nODENADO por CODIGO------------------------------\n";
+    //8.SegundoOrdenamiento (Insertion)
+    insertion(codigos, notas, inasistencias, N);
+
+    //
+    int codigoBuscado2;
+    cout << "Escriba el OTRO codigo que quiera buscar:: ";
+    cin >> codigoBuscado2;
+    //9.BusquedaBinaria
+    int inEncontrado= binaria(codigos, N, 0, N-1, codigoBuscado2);
+    bool condicion1= (inEncontrado== -1);
+    bool condicion2= (inEncontrado== -2);
+    if(condicion1){
+        cout << "\nNo se encontro el numero (asegurese de que existe)\n";
+    }else if(condicion2){
+        cout << "Algo fallo en la busqueda\n";
+    }else{
+        cout << "NOTAS      FALTAS      PUESTO\n";
+        cout << notas[inEncontrado] << "       " << inasistencias[inEncontrado] << "        " << inEncontrado+1;
+    }
 
 
-
-    //function6
-
+    //eliminando memoria guardada en el heap
     delete[] inasistencias;
     delete[] notas;
     delete[] codigos;
