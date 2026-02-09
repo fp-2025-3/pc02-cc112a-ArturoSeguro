@@ -6,21 +6,21 @@ using namespace std;
 //2. Ordenando tiempos con INSERTIONsort------------------
 void insertion(int* tiempos, char (*nombres)[20], int N){
     for(int i=1; i<N; i++){
-        int TempTiempo= tiempos[i];                 //estos son importantísimos para mantenerlo guardado cuando lo quiero volver a "pegar"
-        char TempNombre[20];
-        strcpy(TempNombre, nombres[i]);
-
         int j= i-1;
-        while(j>= 0 && tiempos[j]> TempTiempo){
+        while(j>= 0 && tiempos[j]> tiempos[i]){
             tiempos[j+1]= tiempos[j];
             
             //Paralelamente con los elementos de nombre tambien
-            strcpy( nombres[j+1], nombres[j]);              //--> me habia olvidado el nombre de esta funcion (por eso no la usé)
+            for(int h=0; h<20; h++){
+                *(nombres[j+1]+(h))= *(nombres[j]+(h));
+            }
             j--; 
         }
 
-        tiempos[j+1]= TempTiempo; 
-        strcpy( nombres[j+1], TempNombre);
+        tiempos[j+1]= tiempos[i]; 
+        for(int h=0; h<20; h++){
+            *(nombres[j+1]+(h))= *(nombres[i]+(h));
+        } 
     }
 
     return;
@@ -31,7 +31,7 @@ void insertion(int* tiempos, char (*nombres)[20], int N){
 void imprimirRanking(int* tiempos, char (*nombres)[20], int N){
     cout << "RANKING FINAL\n";
     for(int i=0; i<N; i++){
-        cout << i+1 << ".\t" << nombres[i] << "-\t" << tiempos[i] << " segundos";
+        cout << i+1 << ".\t" << nombres[i] << "-\t" << *tiempos << " segundos";
         cout << "\n";
     }
 
@@ -39,12 +39,36 @@ void imprimirRanking(int* tiempos, char (*nombres)[20], int N){
 }
 
 
+//4.2 COMparando Cadenas
+bool compara(char* arr1, char* arr2){
+    int tam1= strlen(arr1);
+    int tam2= strlen(arr2);
+
+    int tamDefinitivo= 0;
+    if(tam1< tam2){
+        tamDefinitivo= tam1;
+    }else{
+        tamDefinitivo= tam2;
+    }
+
+    for(int i=0; i<tamDefinitivo; i++){
+        if(arr1[i]!= arr2[1]){
+            return false;
+        }
+    }
+
+    return true;        //Significa que son 100% iguales
+}
+
 
 //4. BusquedaLineal------------
 int lineal(char (*nombres)[20], int N, string nombreBuscar){      //va a retornar el indice del corredor
     for(int i=0; i<N; i++){
-        if( strcmp(nombres[i], nombreBuscar.c_str())== 0){       //strcmp() y nombre.c_str() --> eran justo lo que necesitaba y no me acordaba de ellos
-            return i;
+        for(int j=0; j<20; j++){
+            bool condicion= compara((nombres[i]+(j)), &nombreBuscar[0]);        //cada uno apunta al principio de cada cadena
+            if(condicion){
+                return i;
+            }
         }
     }
 
@@ -55,18 +79,27 @@ int lineal(char (*nombres)[20], int N, string nombreBuscar){      //va a retorna
 
 //5. Rango de tiempo
 void rangoTiempo(int* tiempos, char (*nombres)[20], int N, int rango1, int rango2){
-    cout << "\nCorredores en el rango [" << rango1 << ", " << rango2 << "]:\n";
-    bool encontrado= false;
-
+    int inL=0;                  //como "tiempos" esta ordenado, se encontrará primero
+    int inR=0;
     for(int i=0; i<N; i++){
-        if(tiempos[i] >= rango1 && tiempos[i] <= rango2){
-            cout << nombres[i] << "\t---\t" << " segundos\n";
-            encontrado= true;
+        if(tiempos[i]== rango1){
+            inL= i;
+            break;
         }
     }
 
-    if(!encontrado){
-        cout << "No hay corredores en ese rango.\n";
+    for(int i=0; i<N; i++){
+        if(tiempos[i]== rango2){
+            inR= i;
+            break;
+        }
+    }
+
+    //ya tengo los indices que me interesan analizar
+    cout << "corredores en el rango de [" << rango1 << ", " << rango2 << "]";
+    for(int i=inL; i<inR; i++){
+        cout << nombres[i] << "-\t" << *tiempos << " segundos";
+        cout << "\n";
     }
 }
 
