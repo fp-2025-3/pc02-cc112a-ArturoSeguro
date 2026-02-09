@@ -4,51 +4,91 @@
 using namespace std;
 
 
+
 // 
 void imprimir(int (*M)[5]){
+    cout << "Generated Matrix:: \n";
     for(int i=0; i<5; i++){
         for(int j=0; j<5; j++){
             cout << *(M[i]+j) << "\t";
         }
         cout << "\n";
     }
+
+    cout << "\n";   //making space for next lines
+    return;
 }
+
+
 
 
 //
 int esFilaDominanteEstricta(int (*M)[5], int fila){
-    int respuesta=1;    //si no se modifica hasta el final pues cumple todo perfecto (100% estricta)
+    bool foundStrictColumn= false;
+
+    for(int j=0; j<5; j++){
+        int myActualValue= *(M[fila]+j);        //this is what i did need --> not "*(M[fila]+j)"
+        bool isStrictMax= true;                 //being strictly higher then other in the same column
 
 
-    for(int i=0; i<5; i++){
-        for(int j=0; j<5; j++){
-            bool condicion2= (*(M[fila]+j)== *(M[i]+j) && fila!= i);    
-            //puede ser igual. Entra al if() solo si es mayor estricto
-            if(condicion2){
-                respuesta= 0;      //(0) queda como no estricta 
+        for(int i=0; i<5; i++){  
+            if(i== fila){
+                continue;       //if we are in the same "row" that we want to compare with, then we skip it
             }
+
+            int otherValues= *(M[i]+j);
+
+            if(myActualValue< otherValues){     //my value can´t be lower than other --> if it is I return "false"
+                return false;
+            }
+
+            if(myActualValue== otherValues){    //this is an extra condition, but it still counts as a "true" return
+                isStrictMax= false;
+            }
+        }
+
+        if(isStrictMax){                //if we found at least one Value of my "fila(row)" stictly higher than others
+            foundStrictColumn= true;
         }
     }
 
-    for(int i=0; i<5; i++){
-        for(int j=0; j<5; j++){
-            bool condicion1= (*(M[fila]+j)< *(M[i]+j) && fila!= i);    
-            //puede ser igual. Entra al if() solo si es mayor estricto
-            if(condicion1){
-                respuesta= -1;      //(-1) queda como que no cumple
-            }
-        }
-    }
-    return respuesta;     
+    return  foundStrictColumn;
 }
 
 
 
 
-//function3
+//func3
+bool esFilaFuertementeDominante(int (*M)[5], int fila){
+    if(!esFilaDominanteEstricta(M, fila)){          //if this first functions isn't true, so this other one isn't too;  
+        return false;                   
+    }
 
+    //we first calculate the sum of currect row "fila"
+    int sumaFila= 0;
+    for(int j=0; j<5; j++){
+        sumaFila= sumaFila+ *(M[fila]+ j);
+    }
 
+    //comparing with sums of all othe rows
+    for(int i=0; i<5; i++){
+        if(i== fila){       //again, we don't need to compare the "fila" with itself, it would cause problems(errors)
+            continue;
+        }
 
+        int sumOther= 0;
+        for(int j=0; j<5; j++){
+            sumOther= sumOther+ *(M[i]+ j);
+        }
+
+        //if or sum "fila" isn't strictly greater than any of the others, automaticly we return false
+        if(sumaFila<= sumOther){
+            return false;
+        }
+    }
+
+    return true;
+}
 
 
 
@@ -58,44 +98,52 @@ int esFilaDominanteEstricta(int (*M)[5], int fila){
 
 //main
 //
+//
+//
 int main(){
     srand(time(0));
 
     const int N= 5;
-    int M[N][N] = {0};
+    int M[N][N];
     for(int i=0; i<5; i++){
         for(int j=0; j<5; j++){
-            M[i][j]= (rand()%9)+1;
+            M[i][j]= (rand()%2)+1;
         }
     }
     //1--Mi MATRIZ
     imprimir(M);
 
+
+
+    cout << "------------------------------------------------------------------\n";
+    cout << "Fila\tDominante Estricta\tFuertemente Dominante\n";
+    cout << "------------------------------------------------------------------\n";
+
     
-    //2--
-    int fila;
-    cout << "elija el indice de la fila (0-4) que crea que es dominante:: ";
-    cin >> fila;
-    //
-    int respuesta= esFilaDominanteEstricta(M, 3);
-    if(respuesta== 1){
-        cout << "Correcto, esa SI es una fila EStrictamente dominante.\n";
-    }else if(respuesta== 0){
-        cout << "Solo es una fila dominante.\n";
-    }else if(respuesta== -1){
-        cout << "NO es fiña dominante.\n";
+    for(int i=0; i<N; i++){
+        bool strict= esFilaDominanteEstricta(M, i);
+        bool strong=  esFilaFuertementeDominante(M, i);
+        
+
+        cout << i << "\t";
+
+        if(strict){
+            cout << "YES";
+        }else{
+            cout << "NO";
+        }
+
+
+        cout << "\t\t\t";
+
+        if(strong){
+            cout << "YES";
+        }else{
+            cout << "NO";
+        }
+
+        cout << "\n";
     }
-
-
-
-
-    //function1
-
-
-
-    //function2
-
-    
 
     //
     cout << "\n\n-------------END\n";

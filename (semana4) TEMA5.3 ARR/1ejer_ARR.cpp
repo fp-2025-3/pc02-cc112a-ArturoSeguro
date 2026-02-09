@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>    
-#include <cstdlib>      
+#include <cstdlib>
+#include <string>               //Necesario para la identación visual
 using namespace std;
 
 //func3
@@ -31,7 +32,6 @@ int maximoCostoB(int* B, int inicio, int n){
 
     for(int i=inicio; i<n; i++){
         double costoActual= resultadoSegmento(B, inicio, i);
-
         double costoResto= maximoCostoB(B, i+1, n);
 
         double costoTotal= costoActual+ costoResto;
@@ -42,17 +42,29 @@ int maximoCostoB(int* B, int inicio, int n){
         }
     }
 
-    return maxCosto;
+    return (int)maxCosto;               //quieor retornar un entero "(int)porsiaca"
 
 }
 
 
 //function4 --->--> para A[3]
-int maximoCostoA(int* A, int inicio, int n){
+int maximoCostoA(int* A, int inicio, int n, int nivel){
+
+
+    //Visualización GEOMÉTRICA de las llamadas RECURSIVAS
+    string indenta= "";
+    for(int h=0; h<nivel; h++){
+        indenta= indenta+ "\t|";    //aprovechando suma de strings
+    }
+    cout << indenta << "--> Entrando a funcion (posicion actual:  " << inicio << ")\n";
+
+
     //BASE
     if(inicio== n){
+        cout << indenta << "<-- CASO BASE alcanzado. Retorna '0'\n";
         return 0;
     }
+
 
     //
     //debo hacer que halle el máximo
@@ -62,10 +74,7 @@ int maximoCostoA(int* A, int inicio, int n){
 
     for(int i=inicio; i<n; i++){
         double costoActual= resultadoSegmento(A, inicio, i);
-
-        double costoResto= maximoCostoA(A, i+1, n);
-        cout << "Valor de parametro (posición actual):: " << i+1 << "\n";
-        cout << "valor que retorna:: " << costoResto << "\n\n";
+        double costoResto= maximoCostoA(A, i+1, n, nivel+1);
 
         double costoTotal= costoActual+ costoResto;
         
@@ -75,7 +84,9 @@ int maximoCostoA(int* A, int inicio, int n){
         }
     }
 
-    return maxCosto;
+    //
+    cout << indenta << "<-- Saliendo de (posicion:  " << inicio << ") || Retorna maximo local:  " << maxCosto << "\n";
+    return (int)maxCosto;
 
 }
 
@@ -116,7 +127,7 @@ int main(){
     cout << "\n\n\n";
     cout << "para el problema de b):: \n";
     int A[3]={2, 1, 3};
-    costoMax= maximoCostoA(&A[0], 0, 3);   
+    costoMax= maximoCostoA(&A[0], 0, 3, 0);         //Decidi empezar desde el nivel 0
     cout << "\nEl costo maximo es:: " << costoMax;
 
 
