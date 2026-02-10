@@ -43,7 +43,7 @@ int main(){
     int N;
     cout << "Give the number N: ";
     cin >> N;
-    get.ignore();
+    cin.ignore();
 
     //dinamic variables
     contacts* PUNcontacts= new contacts[N];
@@ -57,21 +57,23 @@ int main(){
 
         cout << i+1 << "-\t Provide the student's dd:: ";
         cin >> PUNcontacts[i].birthday.dd;
-        get.ignore();
+        cin.ignore();
         cout << i+1 << "-\t Provide the student's mm:: ";
         cin >> PUNcontacts[i].birthday.mm;
-        get.ignore();
+        cin.ignore();
         cout << i+1 << "-\t Provide the student's yy:: ";
         cin >> PUNcontacts[i].birthday.yy;
-        get.ignore();
+        cin.ignore();
     }   
 
 
 
     //
+    int year;
     cout << "\n\nProvide the year of born:: ";
+    cin >> year;
     for(int i=0; i<N; i++){
-        if(PUNcontacts[i].birthday.yy>= 10){
+        if(PUNcontacts[i].birthday.yy== year){
             cout << i+1 << "-\t Student's name: " << PUNcontacts[i].name;
             cout << "\n";
         }
