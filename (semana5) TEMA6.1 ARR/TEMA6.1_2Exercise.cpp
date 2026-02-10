@@ -35,17 +35,17 @@ int main(){
     cin >> N;
 
     //dinamic variables
-    int *PUNstudent= new student[N];
+    student* PUNstudent= new student[N];
 
 
     //
     for(int i=0; i<N; i++){
         cout << "\n\n";
         cout << i+1 << "-\t Provide the student's code:: ";
-        cin >> (*PUNstudent).code[i];
+        cin >> PUNstudent[i].code;
 
         cout << i+1 << "-\t Provide the student's average:: ";
-        cin >> (*PUNstudent).average[i];
+        cin >> PUNstudent[i].average;
     }   
 
 
@@ -53,8 +53,9 @@ int main(){
     //just approve students
     cout << "\n\nShowing approved students___\n";
     for(int i=0; i<N; i++){
-        if((*PUNstudent).average[i]>= 10){
-            cout << (*PUNstudent).average[i];
+        if(PUNstudent[i].average>= 10){
+            cout << i+1 << "-\t Student's average:: " << PUNstudent[i].average;
+            cout << "\n";
         }
     }
 
