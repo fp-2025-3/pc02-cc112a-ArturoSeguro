@@ -114,6 +114,12 @@ int main(){
 
 
 
+    //delete hype variables
+    delete[] POINteams;
+
+
+
+
     //function1
 
 
@@ -128,7 +134,7 @@ int main(){
 
     //function5
 
-
+    
     //function6
     
 
