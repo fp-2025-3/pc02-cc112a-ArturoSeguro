@@ -11,17 +11,30 @@ struct polinomial{
 
 
 //filling (function2)
-polinomial filling(polinomial* actualP, int degree){
+polinomial* filling(int degree){
     polinomial* head= nullptr;
+    polinomial* last= nullptr;
+
     for(int i=degree; i> 0; i--){                                   //((ERROR1)) I THINK IT IS WRONG. I SHOULDN´T USE [i]
+        polinomial* newNode= new polinomial;
+
         cout << "put the coefficient of 'x^" << i << "':: ";
-        cin >> actualP[i].coefficient;
+        cin >> (*newNode).degree;
 
-        //
-        actualP[i].next= head;
-        head= actualP[i].next;      //this is usefull for track my "nested struct" by a for that searchs if(==nulptr)
+
+        (*newNode).next= nullptr;
+
+        //logic
+        if(head== nullptr){
+            //if it is the first node, it is both
+            head= newNode;
+            last= newNode;
+        }else{
+            (*last).next= newNode;
+        }
+        
+
     }
-
 
 }
 
