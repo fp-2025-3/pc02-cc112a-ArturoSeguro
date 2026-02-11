@@ -3,7 +3,7 @@ using namespace std;
 
 //function1
 struct student{
-    char name[20];
+    string name;
     int grade;
 };
 
@@ -50,7 +50,7 @@ int main(){
     for(int i=0; i<N; i++){
         cout << "\n\n";
         cout << i+1 << ". Provide the name:: ";
-        cin.getline(PUNstudents[i].name, 20);
+        getline(cin, PUNstudents[i].name);
 
         cout << i+1 << ". Provide the grade:: ";
         cin >> PUNstudents[i].grade;
