@@ -108,9 +108,58 @@ void deleteCoeficientes(polinomio* p){
 }
 
 
- 
+//--5
+polinomio* multiplicar(polinomio** todos, int cantidad){
+    if(cantidad== 0){
+        return nullptr;
+    }
 
+    //creo una copia del 1er polinomio --> para comenzar a sumarle todas las operaciones uno por uno
+    polinomio* resultadoAcumulado= new polinomio;
+    (*resultadoAcumulado).grado= (*todos[0]).grado;
+    (*resultadoAcumulado).coeficientes= new int [(*resultadoAcumulado).grado+ 1];
 
+    //copiando todos los coeficientes del 1er polinomio a este nuevo
+    for(int i=0; i<= (*resultadoAcumulado).grado; i++){
+        (*resultadoAcumulado).coeficientes[i]= (*todos[0]).coeficientes[i];
+    }
+
+    //multiplicaciones UNO POR UNO --> por el 2do polino (k=1) --> luego por el 3er polino (k=2)
+    for(int k=1; k<cantidad; k++){
+        int gradoActual= (*resultadoAcumulado).grado;
+        int gradoSiguiente= (*todos[k]).grado;
+        int nuevoGrado= gradoActual+ gradoSiguiente;        //matemática algebraíca básica ((pero en el examen estas tan estresado que te olvidas))
+
+        //polinomio temporal para guardar el producto de esta bucleActual (iteración)
+        polinomio* temp= new polinomio;
+        (*temp).grado= nuevoGrado;
+        (*temp).coeficientes= new int[nuevoGrado+1];
+
+        //denuevo la tecnica de llenarlo de "0" antes de hacerle cualquier cosa
+        for(int i=0; i<=nuevoGrado; i++){
+            (*temp).coeficientes[i]= 0;
+        }
+
+        //ahora sí la multiplicación entre los 2 polinomios que estan en este bucleActual (iteración)
+        for(int i=0; i<= gradoActual; i++){
+            for(int j=0; j<= gradoSiguiente; j++){
+                //los indices i, j encajan perfecto --> aqui esta arreglado para que esos indices sean los "GRADOS" y justo en las multiplicaiones los grados se suman --> PERFECTO PARA BUCLES como estos
+                (*temp).coeficientes[i+j]= (*temp).coeficientes[i+j]+
+                (*resultadoAcumulado).coeficientes[i]* 
+                (*todos[k]).coeficientes[j];
+            }
+        }
+
+        //
+        deleteCoeficientes(resultadoAcumulado);     //elimino la memoria dinámica de "resultadoAcumulado" que al principio era solo LO MISMO QUE EL 1ER POLINOMIO
+        resultadoAcumulado= temp;                   //y le agrego la otra que se quedó con todo lo multiplicado
+    }
+    
+    
+    //
+    return resultadoAcumulado;      //no es necesario DELETE memoria dinámica de "temp" porque la última vez que se pasa por el for se pasa su dirección hacia el "resultadoAcumulado"
+    //en el main() --> "resultadoAcumulado" se pasa a "productoTotal" --> y el productoTotal sí lo tengo que eliminar(delte) DENTRO DEL MAIN
+}
 
 
 //--main--------------------------
@@ -146,11 +195,18 @@ int main(){
     imprimiendoPolinomio(sumaTotal);
 
 
+    //-5
+    polinomio* productoTotal= multiplicar(PUNpolinomio, cantidad);
+    cout << "\nProducto <-- Polinomio: ";
+    imprimiendoPolinomio(productoTotal);
+
+
     //--4
     for(int i=0; i<cantidad; i++){  //de cada polinomio llenado en filling() --> eliminando su grado (new int) y sus coeficientes (new int[])
         deleteCoeficientes(PUNpolinomio[i]);
     }
     deleteCoeficientes(sumaTotal);  //de la función sumar() --3
+    deleteCoeficientes(productoTotal); //de funcion multiplixar() --5
     delete[] PUNpolinomio;
 
 
