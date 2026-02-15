@@ -3,86 +3,52 @@
 #include <ctime>
 using namespace std;
 
+//struct
 //
 struct polinomio{
     int grado;
-    int coeficiente;
-    polinomio* siguiente;
+    int* coeficientes;           //el problema pedia que los coeficientes esten en un arreglo dinámico
 };
 
-//function1
-polinomio* filling(int grado){
-    polinomio* cabeza= nullptr;
-    polinomio* cola= nullptr;
 
-    for(int i=grado; i>= 0; i--){       
-        polinomio* actualCoefi= new polinomio;
-        (*actualCoefi).siguiente= nullptr;
+                //--1
+                //
+                polinomio* filling(int grado){
+                    //solo es un polinomio --> no una serie de "structs" por cada coeficiente
+                    polinomio* p= new polinomio;
+                    (*p).grado= grado;
 
-        //
-        (*actualCoefi).grado= i;
-        (*actualCoefi).coeficiente= (rand()%30)-5;  //para que puedan haber negativos
-   
-        //
-        if(cabeza== nullptr){
-            cabeza= actualCoefi;
-            cola= actualCoefi;
-        }else{
-            (*cola).siguiente= actualCoefi;
-            cola= actualCoefi;
-        }
+                    //ahora el arreglo de todos los oceficientes (variable dinámica)
+                    (*p).coeficientes= new int[grado+1];
+
+                    //lo lleno como lo había hecho en el exam
+                    for(int i=0; i<= grado; i++){
+                        (*p).coeficientes[i]= (rand()%30)-5;
+                    }
+
+                    //
+                    return p;        
+                }
+
+
+//--2
+//
+void imprimiendoPolinomio(polinomio* p){
+    if(p== nullptr){
+        return;
     }
 
-    //
-    return cabeza;        
-}
+    int grado_actual= (*p).grado;
 
+    for(int i=0; i<=(*p).grado; i++){
+        cout << (*p).coeficientes[i] << "x^" << grado_actual;
 
-
-
-//
-void imprimiendoPolinomio(polinomio* cabeza){
-    polinomio* actual1= cabeza;
-
-    while(actual1!= nullptr){
-        cout << (*actual1).coeficiente << "x^" << (*actual1).grado;
-
-        //
-        if( (*actual1).siguiente!= nullptr){
+        //cuando sean iguales --> significa que será el último (x^0) --> Osea ya no necesito otro " + "
+        if(i<(*p).grado){
             cout << " + ";
         }
-        actual1= (*actual1).siguiente;
-    }
 
-    cout << "\n";
-    return;
-}
-
-//function3
-
-
-//function4
-void sumar(polinomio* cabeza0, polinomio** todos){          //necesito que el grado mayor gane
-    polinomio* actual3= cabeza0;
-
-    polinomio* actual31= &todos[0][0];
-    polinomio* actual32= &todos[0][1];
-    polinomio* actual33= &todos[0][2];
-
-
-    int i= (*cabeza0).grado;
-    while(actual3!= nullptr){
-        (*actual31).coeficiente= (*actual31).coeficiente+ (*actual32).coeficiente+ (*actual33).coeficiente;
-
-        //paso al siguiente
-        actual3= (*actual3).siguiente;
-
-        actual31= (*actual31).siguiente;
-        actual32= (*actual32).siguiente;
-        actual33= (*actual33).siguiente;
-
-
-        i--;
+        grado_actual--;
     }
 
     cout << "\n";
@@ -90,20 +56,52 @@ void sumar(polinomio* cabeza0, polinomio** todos){          //necesito que el gr
 }
 
 
+                //--3
+                //
+                polinomio* sumar(polinomio** todos, int cantidad){  //cantidad= 3 (en le main)
+                    //encuentor el mayor grado de mis 3 polinomios
+                    int gradoMayor= -1;
+                    for(int i=0; i<cantidad; i++){
+                        if(gradoMayor< (*todos[i]).grado){
+                            gradoMayor= (*todos[i]).grado;
+                        }
+                    }
+
+                    //Creando el polinomio, resultado de la suma de los 3
+                    polinomio* resultado= new polinomio;
+                    (*resultado).grado= gradoMayor;
+                    (*resultado).coeficientes= new int[gradoMayor+1];
+
+                    //PRIMERO, lo lleno todo de 0
+                    for(int i=0; i<= gradoMayor; i++){
+                        (*resultado).coeficientes[i]= 0;
+                    }
+
+                    //
+                    for(int i=0; i<cantidad; i++){
+                        //calculo el "alcance" para llenar el arreglo "resultado" correctamente dependiendo del grado de cada polinomio
+                        int alcance =gradoMayor- (*todos[i]).grado;
+
+                        //
+                        for(int j=0; j<= (*todos[i]).grado; j++){
+                            (*resultado).coeficientes[alcance+j]= 
+                            (*resultado).coeficientes[alcance+j]+ (*todos[i]).coeficientes[j];
+                        }
+                    }
 
 
+                    //
+                    cout << "\n";
+                    return resultado;
+                }
 
-//function5
 
-
-//function6
+//--4
 //
-void deleteCoeficientes(polinomio* cabeza){
-    while(cabeza!= nullptr){
-        polinomio* actual2= cabeza;
-        cabeza= (*cabeza).siguiente;        
-
-        delete actual2;
+void deleteCoeficientes(polinomio* p){
+    if(p!= nullptr){
+        delete[] (*p).coeficientes;
+        delete p;       
     }
 
     return;
@@ -111,83 +109,52 @@ void deleteCoeficientes(polinomio* cabeza){
 
 
  
-//main
+
+
+
+
+//--main--------------------------
 //
 //
 //
 int main(){
     srand(time(0));
-
     int cantidad= 3;
     polinomio** PUNpolinomio= new polinomio*[cantidad];
 
-    cout << "\n";
-    //
+
+    //--1
     for(int i=0; i<cantidad; i++){
         cout << "\n\n";
-        int gradoTEMP= 4;
+        int gradoTEMP= rand()%4;
         PUNpolinomio[i]= filling(gradoTEMP);
 
-        cout << "\n\n\n";
+        cout << "\n";
     }
 
-    //
+
+    //--2
     for(int i=0; i<cantidad; i++){
         cout << i+1 << "<-- Polinomio: ";
         imprimiendoPolinomio(PUNpolinomio[i]);
     }
 
 
-
-    //SUMAR
-    int gradoMayor= -1;
-    int INpolinomio= -1;
-    for(int i=0; i<cantidad; i++){
-        if(gradoMayor< (*PUNpolinomio[i]).grado){
-            gradoMayor= (*PUNpolinomio[i]).grado;
-            INpolinomio= i;
-        }
-    }
-
-    //falta terminarlo
-    polinomio tempCAMBIADO= *PUNpolinomio[INpolinomio];
-    sumar(PUNpolinomio[INpolinomio], &PUNpolinomio[0]);
-    imprimiendoPolinomio(PUNpolinomio[INpolinomio]);
-
-    *PUNpolinomio[INpolinomio]= tempCAMBIADO;       //lo devulevo (porque e la función lo habia cambiado)
+    //--3
+    polinomio* sumaTotal= sumar(PUNpolinomio, cantidad);
+    cout << "Suma <-- Polinomio: ";
+    imprimiendoPolinomio(sumaTotal);
 
 
-
-
-
-
-
-    //delete todo slos coeficientes que creee
-    for(int i=0; i<cantidad; i++){
+    //--4
+    for(int i=0; i<cantidad; i++){  //de cada polinomio llenado en filling() --> eliminando su grado (new int) y sus coeficientes (new int[])
         deleteCoeficientes(PUNpolinomio[i]);
     }
+    deleteCoeficientes(sumaTotal);  //de la función sumar() --3
+    delete[] PUNpolinomio;
 
 
-
-    //function1
-
-
-    //function2
-
-
-    //function3
-
-
-    //function4
-
-
-    //function5
-
-
-    //function6
-    
-
-
+    //
     cout << "\n\n-------------END\n";
     return 0;
 }
