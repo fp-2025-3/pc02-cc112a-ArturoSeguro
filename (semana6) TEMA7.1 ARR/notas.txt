@@ -1,0 +1,6 @@
+Juan	17
+Arturo	20
+americo	20
+Jose	11
+Enrique	18
+Alexander	19
