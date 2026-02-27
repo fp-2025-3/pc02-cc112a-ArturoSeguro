@@ -1,0 +1,84 @@
+===REPORTE GENERAL DE VENTAS===
+Total de registros: 200
+
+---------------------------------------------
+MONTO TOTAL VENDIDO:
+s/ 530221
+
+---------------------------------------------
+VENDEDOR CON MAYOR RECAUDACION:
+ID vendedor: 9
+Monto vendido: 71382.9
+
+---------------------------------------------
+PRODUCTO MAS VENDIDO:
+ID producto: 14
+Unidades vendidas: 1114
+
+---------------------------------------------
+UNIDADES SOSPECHOSAS (cantidad > 100):
+idVenta: 3	| idVendedor: 10  	| idProducto: 17   	| cantidad: 109
+idVenta: 7	| idVendedor: 3  	| idProducto: 3   	| cantidad: 102
+idVenta: 8	| idVendedor: 2  	| idProducto: 5   	| cantidad: 146
+idVenta: 9	| idVendedor: 10  	| idProducto: 9   	| cantidad: 129
+idVenta: 10	| idVendedor: 5  	| idProducto: 14   	| cantidad: 118
+idVenta: 11	| idVendedor: 10  	| idProducto: 6   	| cantidad: 117
+idVenta: 16	| idVendedor: 9  	| idProducto: 17   	| cantidad: 127
+idVenta: 24	| idVendedor: 1  	| idProducto: 11   	| cantidad: 123
+idVenta: 28	| idVendedor: 8  	| idProducto: 17   	| cantidad: 128
+idVenta: 31	| idVendedor: 9  	| idProducto: 4   	| cantidad: 143
+idVenta: 34	| idVendedor: 1  	| idProducto: 3   	| cantidad: 116
+idVenta: 36	| idVendedor: 5  	| idProducto: 12   	| cantidad: 101
+idVenta: 39	| idVendedor: 1  	| idProducto: 18   	| cantidad: 130
+idVenta: 40	| idVendedor: 4  	| idProducto: 18   	| cantidad: 135
+idVenta: 42	| idVendedor: 2  	| idProducto: 19   	| cantidad: 147
+idVenta: 45	| idVendedor: 10  	| idProducto: 17   	| cantidad: 105
+idVenta: 46	| idVendedor: 2  	| idProducto: 20   	| cantidad: 109
+idVenta: 47	| idVendedor: 7  	| idProducto: 1   	| cantidad: 107
+idVenta: 48	| idVendedor: 8  	| idProducto: 3   	| cantidad: 102
+idVenta: 50	| idVendedor: 6  	| idProducto: 10   	| cantidad: 123
+idVenta: 51	| idVendedor: 5  	| idProducto: 8   	| cantidad: 148
+idVenta: 53	| idVendedor: 7  	| idProducto: 19   	| cantidad: 146
+idVenta: 54	| idVendedor: 8  	| idProducto: 16   	| cantidad: 103
+idVenta: 67	| idVendedor: 10  	| idProducto: 2   	| cantidad: 116
+idVenta: 72	| idVendedor: 4  	| idProducto: 14   	| cantidad: 149
+idVenta: 73	| idVendedor: 7  	| idProducto: 5   	| cantidad: 131
+idVenta: 74	| idVendedor: 8  	| idProducto: 16   	| cantidad: 115
+idVenta: 75	| idVendedor: 7  	| idProducto: 20   	| cantidad: 112
+idVenta: 77	| idVendedor: 8  	| idProducto: 19   	| cantidad: 114
+idVenta: 78	| idVendedor: 3  	| idProducto: 13   	| cantidad: 147
+idVenta: 81	| idVendedor: 3  	| idProducto: 4   	| cantidad: 127
+idVenta: 85	| idVendedor: 2  	| idProducto: 9   	| cantidad: 131
+idVenta: 88	| idVendedor: 7  	| idProducto: 12   	| cantidad: 112
+idVenta: 89	| idVendedor: 7  	| idProducto: 20   	| cantidad: 131
+idVenta: 90	| idVendedor: 3  	| idProducto: 20   	| cantidad: 101
+idVenta: 91	| idVendedor: 1  	| idProducto: 16   	| cantidad: 125
+idVenta: 92	| idVendedor: 9  	| idProducto: 10   	| cantidad: 150
+idVenta: 96	| idVendedor: 7  	| idProducto: 15   	| cantidad: 101
+idVenta: 97	| idVendedor: 6  	| idProducto: 2   	| cantidad: 150
+idVenta: 99	| idVendedor: 8  	| idProducto: 9   	| cantidad: 134
+idVenta: 100	| idVendedor: 8  	| idProducto: 3   	| cantidad: 118
+idVenta: 102	| idVendedor: 10  	| idProducto: 2   	| cantidad: 145
+idVenta: 104	| idVendedor: 2  	| idProducto: 7   	| cantidad: 137
+idVenta: 108	| idVendedor: 4  	| idProducto: 13   	| cantidad: 134
+idVenta: 113	| idVendedor: 4  	| idProducto: 16   	| cantidad: 109
+idVenta: 116	| idVendedor: 2  	| idProducto: 20   	| cantidad: 113
+idVenta: 122	| idVendedor: 5  	| idProducto: 15   	| cantidad: 136
+idVenta: 133	| idVendedor: 6  	| idProducto: 3   	| cantidad: 103
+idVenta: 135	| idVendedor: 5  	| idProducto: 8   	| cantidad: 146
+idVenta: 137	| idVendedor: 6  	| idProducto: 15   	| cantidad: 104
+idVenta: 139	| idVendedor: 5  	| idProducto: 19   	| cantidad: 125
+idVenta: 141	| idVendedor: 6  	| idProducto: 10   	| cantidad: 140
+idVenta: 146	| idVendedor: 1  	| idProducto: 18   	| cantidad: 138
+idVenta: 154	| idVendedor: 4  	| idProducto: 5   	| cantidad: 130
+idVenta: 159	| idVendedor: 7  	| idProducto: 14   	| cantidad: 147
+idVenta: 163	| idVendedor: 9  	| idProducto: 19   	| cantidad: 106
+idVenta: 170	| idVendedor: 5  	| idProducto: 4   	| cantidad: 107
+idVenta: 174	| idVendedor: 2  	| idProducto: 1   	| cantidad: 134
+idVenta: 179	| idVendedor: 1  	| idProducto: 11   	| cantidad: 124
+idVenta: 186	| idVendedor: 3  	| idProducto: 10   	| cantidad: 138
+idVenta: 191	| idVendedor: 5  	| idProducto: 9   	| cantidad: 121
+idVenta: 194	| idVendedor: 2  	| idProducto: 14   	| cantidad: 136
+idVenta: 196	| idVendedor: 3  	| idProducto: 14   	| cantidad: 150
+idVenta: 197	| idVendedor: 7  	| idProducto: 13   	| cantidad: 117
+idVenta: 198	| idVendedor: 8  	| idProducto: 1   	| cantidad: 147
