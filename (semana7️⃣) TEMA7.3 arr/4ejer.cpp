@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstring>
 #include <string>
+#include <iomanip>  //para arreglar la notacion cientifica
 using namespace std;
 
 //---c
@@ -38,7 +39,7 @@ int main(){
     }
     //3er
     venta v;
-    int totalRegistros=0;
+    int totalRegistros= 0;
     while(leer.read((char*)(&v), sizeof(venta))){
         totalRegistros++;
     }
@@ -55,14 +56,15 @@ int main(){
     //3er
     venta v2;
     double montoTotal= 0;
+    //-->--> los parentesis son para incializar todo con 0 y arreglar problemas de "valkgrind"
     //-a---
-    vendedor* vendedores= new vendedor[totalRegistros];
+    vendedor* vendedores= new vendedor[totalRegistros]();
     int numVendedores=0;
     //-b---
-    producto* productos= new producto[totalRegistros];
+    producto* productos= new producto[totalRegistros]();
     int numProductos=0;
     //-c---
-    venta* sospechosas= new venta[totalRegistros];
+    venta* sospechosas= new venta[totalRegistros]();
     int numSospechosas=0;
     //
     for(int i=0; i<totalRegistros; i++){
@@ -71,20 +73,28 @@ int main(){
         //-a---
         bool nuevoVendedor= false;
         for(int j=0; j<numVendedores; j++){
-            vendedores[i].totalVendido+= v2.cantidad*v2.precioUnitario;
-            nuevoVendedor= true;
+            if(vendedores[j].idVendedor== v2.idVendedor){
+                vendedores[j].totalVendido+= v2.cantidad*v2.precioUnitario;
+                nuevoVendedor= true;
+                break;
+            }
         }
         if(!nuevoVendedor){
+            vendedores[numVendedores].idVendedor= v2.idVendedor;
             vendedores[numVendedores].totalVendido= v2.cantidad*v2.precioUnitario;
             numVendedores++;
         }
         //-b---
         bool nuevoProducto= false;
         for(int j=0; j<numProductos; j++){
-            productos[i].cantidadExacta+= v2.cantidad;
-            nuevoProducto= true;
+            if(productos[j].idProducto== v2.idProducto){
+                productos[j].cantidadExacta+= v2.cantidad;
+                nuevoProducto= true;
+                break;
+            }
         }
         if(!nuevoProducto){
+            productos[numProductos].idProducto= v2.idProducto;
             productos[numProductos].cantidadExacta= v2.cantidad;
             numProductos++;
         }
@@ -119,7 +129,7 @@ int main(){
 
 
     //1er, 2do
-    ofstream imprimir(nombreReporte, ios::out | ios::binary);
+    ofstream imprimir(nombreReporte, ios::out);
     if(!imprimir){
         cerr << "no se pudo abrir el archivo.\n";
         delete[] vendedores;
@@ -130,11 +140,11 @@ int main(){
     //3er
     imprimir << "===REPORTE===\n";
     imprimir << "total de registros: " << totalRegistros << "\n\n";
-    imprimir << "MONTO TOTAL VENDIDO: $/" << (float)montoTotal << "\n\n";
+    imprimir << "MONTO TOTAL VENDIDO: S/" << fixed << setprecision(2) << montoTotal << "\n\n";
     imprimir << "--------------------------------------------\n";
     imprimir << "VENDEDOR CON MAYOR RECAUDACIÓN:\n";
     imprimir << "ID vendedor: " << idMejorVendedor << "\n";
-    imprimir << "total vendido: $/" << mayorVendido << "\n\n";
+    imprimir << "total vendido: S/" << mayorVendido << "\n\n";
     imprimir << "--------------------------------------------\n";
     imprimir << "PRODUCTO MAS VENDIDO:\n";
     imprimir << "ID Producto: " << idMejorProducto << "\n";
