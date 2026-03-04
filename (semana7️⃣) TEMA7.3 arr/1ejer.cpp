@@ -12,12 +12,11 @@ struct alumno{
     float nota2;
     float nota3;
     float promedio;
-    int condicion;      // '-1' desaprobado, '1' aprobvado, '2' regla academica
     string descripcion;
 };
 //
 const char* nombreArchivo= "notas.txt";
-const char* nombreReporte= "reporte.txt";
+const char* nombreReporte= "reporteAlumnos.txt";
 
 
 //main
@@ -26,7 +25,7 @@ int main(){
     //1er, 2do
     ifstream leer(nombreArchivo, ios::in);
     if(!leer){
-        cerr << "no se pud abrir el archivo.\n";
+        cerr << "no se pudo abrir el archivo.\n";
         return -1;
     }
     //3er
@@ -50,24 +49,18 @@ int main(){
     for(int i=0; i<totalAlumnos; i++){
         extraer >> A[i].codigo >> A[i].nombre >> A[i].nota1 >> A[i].nota2 >> A[i].nota3;
     }
-    //promedioCadaUNO && regla academica
+    //promedioCadaUNO
     for(int i=0; i<totalAlumnos; i++){
         A[i].promedio= (A[i].nota1+ A[i].nota2+ A[i].nota3)/3.0;
-        if(A[i].nota1<5 || A[i].nota2<5 || A[i].nota3<5){
-            A[i].condicion= 2;
-        }
     }
     //condicionCadaUNO
     for(int i=0; i<totalAlumnos; i++){
-        if(A[i].promedio>= 10){
-            if(A[i].condicion== 2){
-                A[i].descripcion= "DESAPROBADO POR REGLA ACADEMICA.\n";
-            }
-            A[i].condicion= 1;
-            A[i].descripcion= "APROVADO.\n";
+        if(A[i].nota1<5 || A[i].nota2<5 || A[i].nota3<5){
+            A[i].descripcion= "DESAPROBADO POR REGLA ACADEMICA.";
+        }else if(A[i].promedio>= 10){
+            A[i].descripcion= "APROBADO.";
         }else{
-            A[i].condicion= -1;
-            A[i].descripcion= "DESAPROBADO.\n";
+            A[i].descripcion= "DESAPROBADO.";
         }
     }
     //promedio general del curso
@@ -76,13 +69,13 @@ int main(){
         sumaGeneral+= A[i].promedio;
     }
     float promedioGeneral= sumaGeneral/totalAlumnos;
-    //mayor y menor promedio
+    //mayor y menor promedio --> ordenamientoBURBUJA
     for(int i=0; i<totalAlumnos-1; i++){
         for(int j=0; j<totalAlumnos-1-i; j++){
             if(A[j].promedio> A[j+1].promedio){
-                float temp= A[j].promedio;
-                A[j].promedio= A[j+1].promedio;
-                A[j+1].promedio= temp;
+                alumno temp= A[j];
+                A[j]= A[j+1];
+                A[j+1]= temp;
             }
         }
     }
@@ -100,8 +93,8 @@ int main(){
     escribir << "===REPORTE===\n";
     escribir << "total de estudiantes: " << totalAlumnos << "\n";
     escribir << "promedio general curso:" << promedioGeneral << "\n";
-    escribir << "mayor nota: " << A[totalAlumnos-1].promedio << "\n";
-    escribir << "menor nota: " << A[0].promedio << "\n\n";
+    escribir << "mayor nota: " << A[totalAlumnos-1].promedio << "\tNombre: " << A[totalAlumnos-1].nombre << "\n";
+    escribir << "menor nota: " << A[0].promedio << "\tNombre: " << A[0].nombre << "\n\n";
     escribir << "------------------------------------------------\n";
     escribir << "codigo\tnombre\t\tpromedi\tcondici\n";
     for(int i=0; i<totalAlumnos; i++){
