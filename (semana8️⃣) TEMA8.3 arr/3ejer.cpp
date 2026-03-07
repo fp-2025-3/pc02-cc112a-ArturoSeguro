@@ -6,7 +6,7 @@ using namespace std;
 
 
 //---0
-struct Proyecto{
+struct Proyecto{ 
     int id;
     char titulo[40];
     double presupuesto;
@@ -17,7 +17,7 @@ const char* nombreArchivo= "proyectos.dat";
 
 
 //---1
-Proyecto* crear(const char* nombreArchivo, int N){
+void crear(const char* nombreArchivo, int N){
     Proyecto* p= new Proyecto[5*N];    //para tenen espacio de sobra    
     for(int i=0; i<N; i++){
         cout << "-->--> proyecto numero '" << i+1 << "'\n";
@@ -43,7 +43,8 @@ Proyecto* crear(const char* nombreArchivo, int N){
     ofstream escribir(nombreArchivo, ios::out | ios::binary);
     if(!escribir){
         cerr << "no se pudo abrir archivo.\n";
-        return nullptr;
+        delete[] p;
+        return;
     }
     //3er
     for(int i=0; i<N; i++){
@@ -51,59 +52,66 @@ Proyecto* crear(const char* nombreArchivo, int N){
     }
     //4to
     escribir.close();
-    //
-    return p;
-}
-
-
-//---2.1
-int repetido(int& N, Proyecto*& p, int idBuscado){
-    for(int i=0; i<N; i++){
-        if(p[i].id== idBuscado){
-            return i;
-        }
-    }
-    return -1;
+    delete[] p;         //la idea es usar el archivo como base de datos --> no usar la RAM (Eso es un poco trampa)
 }
 
 
 //---2
-void agregar(const char* nombreArchivo, int& N, Proyecto*& p){
-    //usare p[N]
-    cout << "-->--> proyectoNuevo numero '" << N+1 << "'\n";
+void agregar(const char* nombreArchivo){
+    Proyecto nuevo;
+    cout << "-->--> proyectoNuevo numero\n";
     cout << "id: ";
-    cin >> p[N].id;
-    if(repetido(N, p, p[N].id )!= -1){
-        cout << "[error] --> el id no puede ser repetido.\n";
-        return;
+    cin >> nuevo.id;
+    //1er, 2do
+    fstream modificar(nombreArchivo, ios::out | ios::in | ios::binary);
+    if(!modificar){
+        cerr << "no se pudo abrir archivo para agrupar.\n";
     }
-    cout << "titulo: ";
-    cin >> p[N].titulo;
-    cout << "presupuesto: ";
-    cin >> p[N].presupuesto;
-    cout << "duracionMeses: ";
-    cin >> p[N].duracionMeses;
-    N++;
-    //ordenado con bubble (con la nueva cantidad 'N' actualizada)
-    for(int i=0; i<N-1; i++){
-        for(int j=0; j<N-1-i; j++){
-            if(p[j].presupuesto< p[j+1].presupuesto){
-                swap(p[j], p[j+1]);
-            }
+    //3er__verificacion de id repetido correcto
+    Proyecto temp;
+    while(modificar.read((char*)(&temp), sizeof(Proyecto))){
+        if(temp.id== nuevo.id){
+            cout << "[error] --> el id no puede ser repetido.\n";
+            modificar.close();
+            return;
         }
     }
-    //1er, 2do (como lo quiero ordenado mejor lo sobreescribo todo en vez de usar 'ios::app' seri mas complicado)
-    ofstream escribir(nombreArchivo, ios::out | ios::binary);
-    if(!escribir){
-        cerr << "no se pudo abrir archivo.\n";
-        return;
+    //
+    cout << "titulo: ";
+    cin >> nuevo.titulo;
+    cout << "presupuesto: ";
+    cin >> nuevo.presupuesto;
+    cout << "duracionMeses: ";
+    cin >> nuevo.duracionMeses;
+    //
+    modificar.clear();           //necesario para volver a leer desde 0
+    //encontrando posicion para insercion
+    modificar.seekg(0, ios::beg);
+    int pos= 0;
+    while(modificar.read((char*)(&temp), sizeof(Proyecto))){
+        if(nuevo.presupuesto > temp.presupuesto){
+            break;
+        }
+        pos++;
     }
-    //3er
-    for(int i=0; i<N; i++){
-        escribir.write((char*)(&p[i]), sizeof(Proyecto));
+    //Contando total de registros
+    modificar.clear();
+    modificar.seekg(0, ios::end);
+    long tama= modificar.tellg();
+    int totalRegistros= tama/sizeof(Proyecto);
+    //acomodando los registros correctamente para la insercion (empezando desde final)
+    for(int i= totalRegistros-1; i>= pos; i--){ //movemos todo mas abajo desde el final hasta la linea "pos" -> justo en esea linea metermos el nuevo
+        modificar.seekg(i*sizeof(Proyecto), ios::beg);
+        modificar.read((char*)(&temp), sizeof(Proyecto));
+        //
+        modificar.seekp((i+1)*sizeof(Proyecto), ios::beg);
+        modificar.write((char*)(&temp), sizeof(Proyecto));
     }
+    //insertando
+    modificar.seekp(pos*sizeof(Proyecto), ios::beg);
+    modificar.write((char*)(&nuevo), sizeof(Proyecto));
     //4to
-    escribir.close();
+    modificar.close();
 }
 
 
@@ -131,7 +139,6 @@ void mostrarTodo(const char* nombreArchivo){
 }
 
 
-
 //main
 //
 int main(){
@@ -139,18 +146,14 @@ int main(){
     int N;
     cout << "cuantos proyectos desea INICIALIZAR: ";
     cin >> N;
-    Proyecto* p= crear(nombreArchivo, N);
+    crear(nombreArchivo, N);
     cout << "\n\n\n";
     //---2
-    agregar(nombreArchivo, N, p);
+    agregar(nombreArchivo);
     cout << "\n\n\n\n";
     //---3
     mostrarTodo(nombreArchivo);
     cout << "\n\n";
-
-
-    //delete
-    delete[] p;
 
     //
     cout << "\n\n-------------END\n";

@@ -41,6 +41,10 @@ Sensor:: ~Sensor(){
 double* Sensor:: getterPosicion() const{
     return posicion;
 }
+//b5
+string Sensor::getterID() const{
+    return id;
+}
 
 
 //---2
@@ -48,7 +52,7 @@ double* Sensor:: getterPosicion() const{
 SensorCircular:: SensorCircular(string i, double* p, double r)
 : Sensor(i, p){
     radio= r;
-}
+} 
 //a2
 SensorCircular:: ~SensorCircular(){
     cout << "destruyendo sensorCircular.\n";
@@ -72,14 +76,12 @@ bool SensorCircular:: detecta(double x, double y) const{
 //b3
 void SensorCircular:: imprimir() const{
     cout << "=== SensorCircular ===\n";
-    cout << "radio: " << radio;
-    cout << "area cubierta: " << areaCobertura();
-    cout << "punto de prueba (3, 4): ";
-    if(detecta(3, 4)){
-        cout << "se detecto en el area.\n";
-    }else{
-        cout << "no esta dentro del area.\n";
-    }
+    cout << "radio: " << radio << "\n";
+    cout << "area cubierta: " << areaCobertura() << "\n";
+    cout << "id: " << getterID() << "\n";
+    //
+    double* p= getterPosicion();
+    cout << "posicion: (" << p[0] << ", " << p[1] << ")" << "\n";
 }
 
 
@@ -100,7 +102,7 @@ double SensorRectangular:: areaCobertura() const{
 }
 //b2
 bool SensorRectangular:: detecta(double x, double y) const{
-    double* centro= Sensor::getterPosicion();
+    double* centro= getterPosicion();
     double X= centro[0];
     double Y= centro[1];
     bool condicion1= (x> X-ancho/2 && x< X+ancho/2);
@@ -114,13 +116,84 @@ bool SensorRectangular:: detecta(double x, double y) const{
 //b3
 void SensorRectangular:: imprimir() const{
     cout << "=== SensorRectangular ===\n";
-    cout << "ancho: " << ancho;
-    cout << "alto: " << alto;
-    cout << "area cubierta: " << areaCobertura();
-    cout << "punto de prueba (3, 4): ";
-    if(detecta(3, 4)){
-        cout << "se detecto en el area.\n";
-    }else{
-        cout << "no esta dentro del area.\n";
+    cout << "ancho: " << ancho << "\n";
+    cout << "alto: " << alto << "\n";
+    cout << "area cubierta: " << areaCobertura() << "\n";
+    cout << "id: " << getterID() << "\n";
+    //
+    double* p= getterPosicion();
+    cout << "posicion: (" << p[0] << ", " << p[1] << ")" << "\n";
+}
+
+
+//---4
+//a1
+SistemaSensores:: SistemaSensores(){
+    capacidad= 2;
+    cantidad= 0;
+    sensores= new Sensor*[capacidad];
+}
+//a2
+SistemaSensores:: ~SistemaSensores(){
+    for(int i=0; i< cantidad; i++){
+        delete sensores[i];
     }
+    delete[] sensores;
+    cout << "destruyendo Sistema de Sensores.\n";
+}
+//b1
+void SistemaSensores:: agregarSensor(Sensor* s){
+    if(cantidad== capacidad){
+        capacidad*= 2;
+        Sensor** temp= new Sensor*[capacidad];
+        for(int i=0; i<cantidad; i++){
+            temp[i]= sensores[i];
+        }
+        delete[] sensores;
+        sensores= temp;
+    }
+    sensores[cantidad]= s;
+    cantidad++;
+}
+//b2
+void SistemaSensores:: mostrarSensores() const{
+    if(cantidad== 0){
+        cout << "No hay sensores registados.\n";
+        return;
+    }
+    for(int i=0; i<cantidad; i++){
+        sensores[i]->imprimir();
+    }
+}
+//b3
+double SistemaSensores:: areaTotalCobertura() const{
+    double total= 0;
+    for(int i=0; i<cantidad; i++){
+        total+= sensores[i]->areaCobertura();
+    }
+    return total;
+}
+//b4
+int SistemaSensores:: sensoresQueDetectan(double x, double y) const{
+    int contador= 0;
+    for(int i=0; i<cantidad; i++){
+        if(sensores[i]->detecta(x, y)){
+            contador++;
+        }
+    }
+    return contador;
+}
+//b5
+Sensor* SistemaSensores:: sensorMayorCobertura() const{
+    if(cantidad== 0){
+        return nullptr;
+    }
+    //
+    Sensor* mayor= sensores[0];
+    for(int i=1; i< cantidad; i++){
+        if(sensores[i]->areaCobertura()> mayor->areaCobertura()){
+            mayor= sensores[i];
+        }
+    }
+    return mayor;
 }

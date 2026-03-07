@@ -11,7 +11,7 @@ class Sensor{
         string id;
         double* posicion;       //arrelgo dinamico de 2valores --> tengo que crearlo en una funcion y destruirlo en "destructore"
     public:
-        //a1, a2, a3, a4
+        //a1, a2, a3, a4 
         Sensor(string i, double* p);
         Sensor(const Sensor& s);
         Sensor& operator=(const Sensor& s);
@@ -21,6 +21,7 @@ class Sensor{
         virtual bool detecta(double x, double y) const= 0;
         virtual void imprimir() const= 0;
         double* getterPosicion() const;
+        string getterID() const;
 };
 
 
@@ -58,10 +59,20 @@ class SensorRectangular: public Sensor{
 //---4
 class SistemaSensores{
     private:
-
+        Sensor** sensores;
+        int cantidad;
+        int capacidad;
     public:
+        //a1, a2
+        SistemaSensores();
+        ~SistemaSensores();
+        //b1, b2, b3, b4, b5
+        void agregarSensor(Sensor* s);
+        void mostrarSensores() const;
+        double areaTotalCobertura() const;
+        int sensoresQueDetectan(double x, double y) const;
+        Sensor* sensorMayorCobertura() const;
 };
-
 
 
 //

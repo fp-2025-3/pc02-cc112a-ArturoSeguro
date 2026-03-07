@@ -4,26 +4,12 @@
 #include <string>
 using namespace std;
 
-
-//---1
-void agregarCircular(Sensor* s[], int cantidadActual){
-    double* posi= new double[2];
-    posi[0]= 1.0;
-    posi[0]= 2.1;
-    SensorCircular sC= SensorCircular("12301", posi, 4.56);
-    s[cantidadActual]= new SensorCircular(sC);
-    //
-    cantidadActual++;
-    cout << "se agrego correctamente.\n";
-}
-
-
+ 
 //main
 //
 int main(){
     int decision;
-    Sensor* s[50];
-    int cantidadActual= 0;
+    SistemaSensores sistema;
     do{
         cout << "1. agregar SensorCircular.\n";
         cout << "2. agregar SensorRectangular.\n";
@@ -37,21 +23,50 @@ int main(){
         //
         switch(decision){
             case 1:{
-                agregarCircular(s, cantidadActual);
+                string id; double x, y, r;
+                cout << "ID: "; cin >> id;
+                cout << "Posicion X: "; cin >> x;
+                cout << "Posicion Y: "; cin >> y;
+                cout << "Radio: "; cin >> r;
+                double p[2] = {x, y};
+                sistema.agregarSensor(new SensorCircular(id, p, r));
+                cout << "Agregado correctamente.\n";
+                break;
             }
             case 2:{
+                string id; double x, y, an, al;
+                cout << "ID: "; cin >> id;
+                cout << "Posicion X: "; cin >> x;
+                cout << "Posicion Y: "; cin >> y;
+                cout << "Ancho: "; cin >> an;
+                cout << "Alto: "; cin >> al;
+                double p[2] = {x, y};
+                sistema.agregarSensor(new SensorRectangular(id, p, an, al));
+                cout << "Agregado correctamente.\n";
                 break;
             }
             case 3:{
+                cout << "\n=== TODOS LOS SENSORES ===\n";
+                sistema.mostrarSensores();
                 break;
             }
             case 4:{
+                cout << "Area Total: " << sistema.areaTotalCobertura() << "\n";
                 break;
             }
             case 5:{
+                double x, y;
+                cout << "Punto X a evaluar: "; cin >> x;
+                cout << "Punto Y a evaluar: "; cin >> y;
+                cout << "'" << sistema.sensoresQueDetectan(x, y) << "' sensor(es) detectan el punto.\n";
                 break;
             }
             case 6:{
+                Sensor* mayor = sistema.sensorMayorCobertura();
+                if(mayor){
+                    cout << "Sensor con mayor cobertura:\n";
+                    mayor->imprimir();
+                }
                 break;
             }
             case 7:{
@@ -59,13 +74,13 @@ int main(){
                 break;
             }
             default:{
+                cout << "opcion invalida.\n";
                 break;
             }
         }
         cout << "\n\n\n";
     }while(decision!= 7);
-
-
+    
 
     //
     cout << "\n\n-------------END\n";
