@@ -1,0 +1,15 @@
+nombre: anillo
+RED: 62 | GREEN: 81 | BLUE: 56
+area: 158.368
+perimetro: 44.6107
+---------------------------
+nombre: terreno
+RED: 54 | GREEN: 59 | BLUE: 37
+area: 9.45
+perimetro: 13.2
+---------------------------
+nombre: anillo
+RED: 86 | GREEN: 78 | BLUE: 58
+area: 149.572
+perimetro: 43.3541
+---------------------------

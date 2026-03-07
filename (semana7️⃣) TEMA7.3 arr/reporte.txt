@@ -1,0 +1,68 @@
+===REPORTE===
+total de estudiantes: 30
+promedio general curso:12.7889
+mayor nota: 19.6667
+menor nota: 5
+
+------------------------------------------------
+codigo	nombre		promedi	condici
+1001	Juan		5	APROVADO.
+
+1002	Maria		6	APROVADO.
+
+1003	Luis		6	APROVADO.
+
+1004	Ana		6	DESAPROBADO.
+
+1005	Carlos		8	APROVADO.
+
+1006	Lucia		8.33333	APROVADO.
+
+1007	Pedro		9	DESAPROBADO.
+
+1008	Sofia		9	APROVADO.
+
+1009	Diego		9	APROVADO.
+
+1010	Valeria		10	DESAPROBADO.
+
+1011	Andres		10.6667	APROVADO.
+
+1012	Carmen		11	APROVADO.
+
+1013	Ricardo		12	DESAPROBADO.
+
+1014	Elena		12	APROVADO.
+
+1015	Miguel		13	DESAPROBADO.
+
+1016	Patricia		13	APROVADO.
+
+1017	Fernando		14	APROVADO.
+
+1018	Daniela		15	APROVADO.
+
+1019	Jorge		15	DESAPROBADO.
+
+1020	Paola		15	APROVADO.
+
+1021	Marco		15.3333	APROVADO.
+
+1022	Rosa		15.6667	DESAPROBADO.
+
+1023	Julio		17	APROVADO.
+
+1024	Teresa		17	APROVADO.
+
+1025	Hugo		17	APROVADO.
+
+1026	Alicia		18	APROVADO.
+
+1027	Bruno		19	DESAPROBADO.
+
+1028	Claudia		19	APROVADO.
+
+1029	Ivan		19	DESAPROBADO.
+
+1030	Monica		19.6667	APROVADO.
+

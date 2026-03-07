@@ -1,0 +1,28 @@
+//gestionar vehiculos en empresa
+/*
+*automovil
+*caminon
+*motiocicleta
+
+//los vehiculos comparten informaicon
+*placa
+*marca
+*año
+*precio
+
+cada uno tiene info adicional (especifica)
+*automovil: numero de peurtas
+*caminon: capacidad de carga
+*motocicleta: potencia
+*/
+
+
+
+//luego asegurarme de aplicar 4 principios basicos de POO
+/*
+1. Abstraccion
+2. Encapsulación
+3. Herencia
+4. Polimorfismo
+
+*/

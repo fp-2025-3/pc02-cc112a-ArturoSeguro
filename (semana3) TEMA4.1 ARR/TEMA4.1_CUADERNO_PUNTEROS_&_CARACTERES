@@ -1,0 +1,50 @@
+Arreglos de caracteres y punteros en C++
+____________________________________________
+____________________________________________
+
+
+******1. Representaciòn en memoria: caracteres ASCII
+    Ejercicio1.1 -- EL caracter como numero
+    Analiza el siguiente codigo
+    ·$·$·$·$
+
+    1. QUé valores numéricos se imprimirán?
+    2. Poruqé 'A'  y 'a' no tiene el mismo valor?
+    3. un char es realmente un caracter o un número?
+        el compilador no ve letras, solo números
+    4. CUantos bytes ocupa un nchar en memoria? 1byte
+
+    EWJercicio1.2 -- COMparaciones sospechosas
+    ·$·$·$·$
+
+    Aqui no se comparan cifras, se comparan c+odigos ASCII
+
+
+
+******2. Aritmética limitada de caracteres
+    ejercicio2.1 -- Se puede sumar caracteres?
+    ·$·$·$·$
+    la aritmética de caracteres no entiende semántica
+
+    Ejercicio2.2 -- CONvertit mayúscula a miunúscula
+    ·$·$·$·$
+    Todas las minusculas estan desplazadas +32 en ASCII por lo tanto,
+    funciona por casualidad de estructura del ASCII
+
+
+******3. Arreglo de caracteres vs cadena de caracteres
+    Ejercicio 3.1 -- ESto es una cadena?
+    ·$·$·$·$
+    Ejercicio 3.2 -- EL carácter invisible
+    ·$·$·$·$
+
+    
+******4. Punteros y cadenas de caracteres
+    EJercicio 4.1 -- Arreglo vs punteros
+    ·$·$·$·$
+
+
+    ...
+    ...
+
+    ...
